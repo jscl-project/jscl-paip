@@ -1,0 +1,10 @@
+{
+  "name": "jscl-paip",
+  "version": "0.1.0",
+  "description": "PAIP code running in the browser via JSCL",
+  "scripts": {
+    "start": "npx serve dist"
+  },
+  "keywords": ["lisp", "jscl", "paip"],
+  "license": "GPL-3.0"
+}
