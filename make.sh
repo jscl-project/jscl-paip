@@ -8,28 +8,35 @@ DIST_DIR="$SCRIPT_DIR/dist"
 # Clone or update JSCL
 if [ -d "$JSCL_DIR" ]; then
     echo "Updating JSCL repository..."
-    cd "$JSCL_DIR"
-    git fetch origin
-    git checkout runtime-compile-application
-    git pull origin runtime-compile-application
+    (
+	cd "$JSCL_DIR"
+	git fetch origin
+	git checkout runtime-compile-application
+	git pull origin runtime-compile-application
+    )
 else
     echo "Cloning JSCL repository..."
     git clone --branch runtime-compile-application https://github.com/jscl-project/jscl.git "$JSCL_DIR"
 fi
 
-# Build JSCL
-echo "Building JSCL..."
-cd "$JSCL_DIR"
-./make.sh
+# Build JSCL (skip if already built)
+(
+if [ ! -f "$JSCL_DIR/jscl.js" ]; then
+    echo "Building JSCL..."
+    $JSCL_DIR/make.sh
+else
+    echo "JSCL already built, skipping..."
+fi
+)
+
 
 # Build jscl-worker.js
 echo "Building jscl-worker.js..."
-node "$JSCL_DIR/jscl.js" -e "(jscl:compile-application \"worker/worker.lisp\" \"jscl-worker.js\")"
+node "$JSCL_DIR/jscl.js" -e '(jscl:compile-application "jscl/worker/worker.lisp" "dist/jscl-worker.js")'
 
 # Create dist directory and copy files
 echo "Copying files to dist/..."
 mkdir -p "$DIST_DIR"
-cp "$JSCL_DIR/jscl-worker.html" "$DIST_DIR/"
 cp "$JSCL_DIR/jscl-worker.js" "$DIST_DIR/"
 cp "$JSCL_DIR/jscl-worker-main.js" "$DIST_DIR/"
 cp "$JSCL_DIR/jquery.js" "$DIST_DIR/"
@@ -37,5 +44,8 @@ cp "$JSCL_DIR/jqconsole.min.js" "$DIST_DIR/"
 cp "$JSCL_DIR/style.css" "$DIST_DIR/"
 cp "$JSCL_DIR/service-worker.js" "$DIST_DIR/"
 cp "$JSCL_DIR/jscl.js" "$DIST_DIR/"
+
+
+cp "index.html" "$DIST_DIR/"
 
 echo "Done. Output files are in $DIST_DIR"
