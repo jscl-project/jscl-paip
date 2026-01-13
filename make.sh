@@ -23,12 +23,14 @@ fi
 (
 if [ ! -f "$JSCL_DIR/jscl.js" ]; then
     echo "Building JSCL..."
-    $JSCL_DIR/make.sh
+    ( cd $JSCL_DIR; ./make.sh )
 else
     echo "JSCL already built, skipping..."
 fi
 )
 
+
+mkdir -p "$DIST_DIR"
 
 # Build jscl-worker.js
 echo "Building jscl-worker.js..."
@@ -36,7 +38,6 @@ node "$JSCL_DIR/jscl.js" -e '(jscl:compile-application "jscl/worker/worker.lisp"
 
 # Create dist directory and copy files
 echo "Copying files to dist/..."
-mkdir -p "$DIST_DIR"
 cp "$JSCL_DIR/jscl-worker.js" "$DIST_DIR/"
 cp "$JSCL_DIR/jscl-worker-main.js" "$DIST_DIR/"
 cp "$JSCL_DIR/jquery.js" "$DIST_DIR/"
