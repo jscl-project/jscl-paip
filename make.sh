@@ -34,7 +34,7 @@ mkdir -p "$DIST_DIR"
 
 # Build jscl-worker.js
 echo "Building jscl-worker.js..."
-node "$JSCL_DIR/jscl.js" -e '(jscl:compile-application (list "compat/io.lisp" "jscl/worker/worker.lisp" "compat/start.lisp") "dist/jscl-worker.js")'
+node "$JSCL_DIR/jscl.js" -e '(jscl:compile-application (list "compat/io.lisp" "compat/load.lisp" "jscl/worker/worker.lisp" "compat/start.lisp") "dist/jscl-worker.js")'
 
 # Create dist directory and copy files
 echo "Copying files to dist/..."
@@ -47,5 +47,6 @@ cp "$JSCL_DIR/jscl.js" "$DIST_DIR/"
 
 
 cp "index.html" "$DIST_DIR/"
+cp -r "paip" "$DIST_DIR/"
 
 echo "Done. Output files are in $DIST_DIR"
