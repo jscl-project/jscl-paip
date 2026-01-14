@@ -4,12 +4,14 @@
   "Load a Lisp file from the server using synchronous XHR.
    Files are loaded from the paip/ directory by default.
    The .lisp extension is added automatically if not present."
-  (let* ((name (if (and (> (length filename) 5)
-                        (string= (subseq filename (- (length filename) 5)) ".lisp"))
-                   filename
-                   (concatenate 'string filename ".lisp")))
+  (let* ((filename-str (namestring filename))
+         (name (if (and (> (length filename-str) 5)
+                        (string= (subseq filename-str (- (length filename-str) 5)) ".lisp"))
+                   filename-str
+                   (concatenate 'string filename-str ".lisp")))
          (xhr (make-new #j:XMLHttpRequest))
          (path (concatenate 'string "paip/" name)))
+
     ((oget xhr "open") "GET" path nil)
     ((oget xhr "send"))
     (if (= (oget xhr "status") 200)
