@@ -1,6 +1,10 @@
 # JSCL-PAIP
 
+**Work-in-Progress**
+
 An interactive web version of the code from Peter Norvig's *Paradigms of Artificial Intelligence Programming* (PAIP), running entirely in the browser via [JSCL](https://github.com/jscl-project/jscl).
+
+**Try it live:** https://jscl-project.github.io/jscl-paip/
 
 ## About
 
