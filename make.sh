@@ -11,12 +11,12 @@ if [ -d "$JSCL_DIR" ]; then
     (
 	cd "$JSCL_DIR"
 	git fetch origin
-	git checkout runtime-compile-application
-	git pull origin runtime-compile-application
+	git checkout master
+	git pull origin master
     )
 else
     echo "Cloning JSCL repository..."
-    git clone --branch runtime-compile-application https://github.com/jscl-project/jscl.git "$JSCL_DIR"
+    git clone --branch master https://github.com/jscl-project/jscl.git "$JSCL_DIR"
 fi
 
 # Build JSCL (skip if already built)
@@ -34,7 +34,7 @@ mkdir -p "$DIST_DIR"
 
 # Build jscl-worker.js
 echo "Building jscl-worker.js..."
-node "$JSCL_DIR/jscl.js" -e '(jscl:compile-application (list "compat/auxfns-compat.lisp" "compat/io.lisp" "compat/load.lisp" "jscl/worker/worker.lisp" "compat/dev.lisp" "compat/start.lisp") "dist/jscl-worker.js")'
+echo '(jscl:compile-application (list "compat/auxfns-compat.lisp" "compat/io.lisp" "compat/load.lisp" "jscl/worker/worker.lisp" "compat/dev.lisp" "compat/start.lisp") "dist/jscl-worker.js")' | node "$JSCL_DIR/jscl-node.js"
 
 # Create dist directory and copy files
 echo "Copying files to dist/..."

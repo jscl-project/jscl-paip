@@ -42,7 +42,9 @@
                          "")))))
 
 (defun truename (path)
-  path)
+  (if (string= path "")
+      (make-pathname)
+      path))
 
 ;;; File system stubs
 (defun probe-file (pathname)
