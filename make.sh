@@ -21,9 +21,9 @@ fi
 
 # Build JSCL (skip if already built)
 (
-if [ ! -f "$JSCL_DIR/jscl.js" ]; then
+if [ ! -f "$JSCL_DIR/dist/jscl.js" ]; then
     echo "Building JSCL..."
-    ( cd $JSCL_DIR; ./make.sh )
+    ( cd $JSCL_DIR; npm install; ./make.sh )
 else
     echo "JSCL already built, skipping..."
 fi
@@ -34,16 +34,16 @@ mkdir -p "$DIST_DIR"
 
 # Build jscl-worker.js
 echo "Building jscl-worker.js..."
-echo '(jscl:compile-application (list "compat/auxfns-compat.lisp" "compat/io.lisp" "compat/load.lisp" "jscl/worker/worker.lisp" "compat/dev.lisp" "compat/start.lisp") "dist/jscl-worker.js")' | node "$JSCL_DIR/jscl-node.js"
+echo '(jscl:compile-application (list "compat/auxfns-compat.lisp" "compat/io.lisp" "compat/load.lisp" "jscl/worker/worker.lisp" "compat/dev.lisp" "compat/start.lisp") "dist/jscl-worker.js")' | node "$JSCL_DIR/dist/jscl-node.js"
 
 # Create dist directory and copy files
 echo "Copying files to dist/..."
-cp "$JSCL_DIR/jscl-worker-main.js" "$DIST_DIR/"
-cp "$JSCL_DIR/jquery.js" "$DIST_DIR/"
-cp "$JSCL_DIR/jqconsole.min.js" "$DIST_DIR/"
-cp "$JSCL_DIR/style.css" "$DIST_DIR/"
-cp "$JSCL_DIR/service-worker.js" "$DIST_DIR/"
-cp "$JSCL_DIR/jscl.js" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/main.js" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/jquery.js" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/jqconsole.js" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/style.css" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/service-worker.js" "$DIST_DIR/"
+cp "$JSCL_DIR/dist/jscl.js" "$DIST_DIR/"
 
 
 cp "index.html" "$DIST_DIR/"
